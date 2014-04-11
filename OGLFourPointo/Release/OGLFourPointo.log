@@ -1,0 +1,36 @@
+﻿Build started 4/10/2014 10:05:17 PM.
+     1>Project "C:\Users\Angeleyes\Documents\Visual Studio 2012\Projects\ogl-4-0 - ShadowMaps\OGLFourPointo\OGLFourPointo.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>main.cpp(158): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>main.cpp(199): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\stdio.h(357) : see declaration of 'sprintf'
+     1>main.cpp(245): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>main.cpp(258): warning C4305: '+=' : truncation from 'double' to 'float'
+     1>main.cpp(265): warning C4305: '-=' : truncation from 'double' to 'float'
+     1>main.cpp(272): warning C4305: '+=' : truncation from 'double' to 'float'
+     1>main.cpp(280): warning C4305: '-=' : truncation from 'double' to 'float'
+     1>main.cpp(287): warning C4305: '-=' : truncation from 'double' to 'float'
+     1>main.cpp(294): warning C4305: '+=' : truncation from 'double' to 'float'
+     1>main.cpp(302): warning C4305: '+=' : truncation from 'double' to 'float'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Angeleyes\Documents\Visual Studio 2012\Projects\ogl-4-0 - ShadowMaps\Release\OGLFourPointo.exe" /INCREMENTAL:NO /NOLOGO glew32.lib DevIL.lib ILU.lib ILUT.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Angeleyes\Documents\Visual Studio 2012\Projects\ogl-4-0 - ShadowMaps\Release\OGLFourPointo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Angeleyes\Documents\Visual Studio 2012\Projects\ogl-4-0 - ShadowMaps\Release\OGLFourPointo.lib" /MACHINE:X86 /SAFESEH Release\Body.obj
+         Release\Cube.obj
+         Release\CurrentState.obj
+         Release\Grid.obj
+         Release\list.obj
+         Release\main.obj
+         Release\obj_parser.obj
+         Release\objLoader.obj
+         Release\string_extra.obj
+         Release\Utils.obj
+         Release\World.obj
+         Generating code
+         Finished generating code
+         OGLFourPointo.vcxproj -> C:\Users\Angeleyes\Documents\Visual Studio 2012\Projects\ogl-4-0 - ShadowMaps\Release\OGLFourPointo.exe
+     1>Done Building Project "C:\Users\Angeleyes\Documents\Visual Studio 2012\Projects\ogl-4-0 - ShadowMaps\OGLFourPointo\OGLFourPointo.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.17

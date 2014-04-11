@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="OGL 4 point o" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/OGL 4 point o" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/OGL 4 point o" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Linker>
+			<Add library="GL" />
+			<Add library="X11" />
+		</Linker>
+		<Unit filename="Body.cpp" />
+		<Unit filename="Body.h" />
+		<Unit filename="Cube.cpp" />
+		<Unit filename="Cube.h" />
+		<Unit filename="CurrentState.cpp" />
+		<Unit filename="CurrentState.h" />
+		<Unit filename="Grid.cpp" />
+		<Unit filename="Grid.h" />
+		<Unit filename="Matrix.h" />
+		<Unit filename="Utils.cpp" />
+		<Unit filename="Utils.h" />
+		<Unit filename="World.cpp" />
+		<Unit filename="World.h" />
+		<Unit filename="list.cpp" />
+		<Unit filename="list.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="objLoader.cpp" />
+		<Unit filename="objLoader.h" />
+		<Unit filename="obj_parser.cpp" />
+		<Unit filename="obj_parser.h" />
+		<Unit filename="string_extra.cpp" />
+		<Unit filename="string_extra.h" />
+		<Extensions>
+			<envvars />
+			<code_completion />
+			<lib_finder disable_auto="1" />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
