@@ -4,6 +4,9 @@
 
 class CurrentState
 {
+private:
+    static Matrix ViewMatrix;
+
 public:
 	static Vector Eye,
 				  LookAt;
@@ -11,8 +14,8 @@ public:
 				ProjectionMatrix,
 				OrthoProjectionMatrix,
 				ShadowViewMatrix,
-				ShadowBiasMatrix,
-				ViewMatrix;
+				ShadowBiasMatrix;
+				
 	static clock_t 
 				LastTime;
 	static Vector LightDir;

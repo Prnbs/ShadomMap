@@ -17,7 +17,7 @@ private:
 public:
 	~World();
 	int TotalBodies();
-	void DrawBodies();
+	void DrawBodies(GLboolean);
 	void DrawFromLightPOV();
 	void CreateBodies();
 	void DestroyBodies();

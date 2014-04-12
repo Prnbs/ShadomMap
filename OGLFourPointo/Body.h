@@ -39,7 +39,7 @@ public:
 
 	virtual void Create() = 0;
 	virtual void Destroy() = 0;
-	virtual void Draw() = 0;
+	virtual void Draw(GLboolean) = 0;
 	virtual void DrawFromLightPOV() = 0;
 	virtual GLuint GetViewMatrixUniformLocation() = 0;
 	virtual GLuint GetProjectionMatrixUniformLocation() = 0;

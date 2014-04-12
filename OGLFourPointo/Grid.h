@@ -22,7 +22,7 @@ public:
 
 	 void Create();
 	 void Destroy();
-	 void Draw();
+	 void Draw(GLboolean);
 	 void DrawFromLightPOV();
 	 GLuint GetViewMatrixUniformLocation();
 	 GLuint GetProjectionMatrixUniformLocation();

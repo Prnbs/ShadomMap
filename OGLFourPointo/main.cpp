@@ -50,9 +50,9 @@ Vector DirectLight;
 int main(int argc, char* argv[])
 {
 	
-	DirectLight.v[0] = 10.0f;
-	DirectLight.v[1] = 10.0f;
-	DirectLight.v[2] = 10.0f;
+	DirectLight.v[0] = 0.0f;
+	DirectLight.v[1] = 2.0f;
+	DirectLight.v[2] = 0.0f;
 
 	state.SetLightDirection(DirectLight);
 	
@@ -104,14 +104,24 @@ void Initialize(int argc, char* argv[])
 	ProjectionMatrix = IDENTITY_MATRIX;
 	ViewMatrix = IDENTITY_MATRIX;
 	ShadowViewMatrix = IDENTITY_MATRIX;
-	Eye.v[0] = 0;	Eye.v[1] = 0;	Eye.v[2] = -2.0f;
+	Eye.v[0] = -0.2;	Eye.v[1] = -0.4;	Eye.v[2] = -2.0f;
 	LookAt.v[0] = 0;	LookAt.v[1] = 0;	LookAt.v[2] = 0.0f;
-	CreateViewMatrix(&ViewMatrix, Eye, LookAt);
-	Vector InvDirectLight;
-	ScaleVector(&DirectLight, -1.0, &InvDirectLight);
-	
-	CreateViewMatrix(&ShadowViewMatrix, InvDirectLight, LookAt);
-	TranslateMatrix(&ViewMatrix, Eye.v[0], Eye.v[1], Eye.v[2]);
+    Vector InvDirectLight;
+    ScaleVector(&DirectLight, -1.0, &InvDirectLight);
+    Vector ShadowLookAt = DirectLight;
+   //GOLDEN FOR VIEW
+    CreateViewMatrix(&ViewMatrix, Eye, LookAt);
+    TranslateMatrix(&ViewMatrix, Eye.v[0], Eye.v[1], Eye.v[2]);
+
+    //PUTTING CAMERA IN LIGHT"S POSN
+  /*  CreateViewMatrix(&ViewMatrix, InvDirectLight, Eye);
+    TranslateMatrix(&ViewMatrix, Eye.v[0], Eye.v[1], Eye.v[2]);*/
+
+
+
+    //GOLDEN FOR SHADOW
+    CreateViewMatrix(&ShadowViewMatrix, InvDirectLight, Eye);
+    TranslateMatrix(&ShadowViewMatrix, Eye.v[0], Eye.v[1], Eye.v[2]);
 	
 	state.SetEye(Eye);
 	state.SetLookAt(LookAt);
@@ -166,14 +176,18 @@ void RenderFunction(void)
 	++FrameCount;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	world.DrawFromLightPOV();
 
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	glDepthFunc(GL_LEQUAL);
-		world.DrawBodies();
-	glDisable(GL_DEPTH_TEST);
+    glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LEQUAL);
+
+    world.DrawFromLightPOV();
+    glDisable(GL_DEPTH_TEST);
+	glDepthMask(GL_FALSE);//Disable writes to Depth Buffer
+
+    world.DrawBodies(GL_TRUE);
+
+	//glDisable(GL_DEPTH_TEST);
 	glutSwapBuffers();
 	glutPostRedisplay();
 }

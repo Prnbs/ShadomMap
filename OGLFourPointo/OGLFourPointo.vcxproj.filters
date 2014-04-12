@@ -50,32 +50,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Cubemap.fragment.glsl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="Cubemap.vertex.glsl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="Phong.fragment.glsl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="Phong.vertex.glsl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="Shadow.fragment.glsl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="Shadow.vertex.glsl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="Texture.fragment.glsl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="Texture.vertex.glsl">
-      <Filter>Source Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Body.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -108,11 +82,29 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ShadowMap.vertex.glsl">
-      <Filter>Source Files</Filter>
-    </Text>
-    <Text Include="ShadowMap.fragment.glsl">
-      <Filter>Source Files</Filter>
-    </Text>
+    <None Include="..\Shaders\Cubemap.fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Shaders\Cubemap.vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Shaders\Phong.fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Shaders\Phong.vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Shaders\ShadowMap.fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Shaders\ShadowMap.vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Shaders\Texture.fragment.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\Shaders\Texture.vertex.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

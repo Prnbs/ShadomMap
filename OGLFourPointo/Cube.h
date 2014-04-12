@@ -45,7 +45,7 @@ public:
 	 float CubeRotation;
 	 void Create();
 	 void Destroy();
-	 void Draw();
+	 void Draw(GLboolean);
 	 void DrawFromLightPOV();
 	 void RenderFunction();
 	 GLuint GetViewMatrixUniformLocation();

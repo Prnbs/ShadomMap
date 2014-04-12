@@ -15,11 +15,11 @@ int World::TotalBodies()
 	return world.size();
 }
 
-void World::DrawBodies()
+void World::DrawBodies(GLboolean disableColorWrite)
 {
 	for(iter = world.begin(); iter != world.end(); iter++)
 	{
-		(*iter)->Draw();
+		(*iter)->Draw(disableColorWrite);
 	}
 }
 
@@ -38,9 +38,13 @@ void World::CreateBodies()
 
 	cube->Create();
 	grid->Create();
+
+    world.push_back(grid);
+    world.push_back(cube);
+    
 	
-	world.push_back(grid);
-	world.push_back(cube);
+	
+	
 	
 }
 

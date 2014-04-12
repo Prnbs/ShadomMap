@@ -41,7 +41,7 @@ void Cube::Create()
 	DirectLightColour.Color[3] = 0.1f;
 
 	objLoader *objData = new objLoader();
-	objData->load("teapot.obj");
+	objData->load("..\\Models\\teapot.obj");
 	
 	Vector TexTea[530];
 	float Color[4] = {0,0,0.0,1};
@@ -122,14 +122,14 @@ void Cube::Create()
 	//cout << glCreateProgram()<< endl;
 	ExitOnGLError("ERROR: Could not create the shader program");
 	
-	ShaderCubeIds.push_back(LoadShader("Texture.fragment.glsl", GL_FRAGMENT_SHADER));
-	ShaderCubeIds.push_back(LoadShader("Texture.vertex.glsl", GL_VERTEX_SHADER));
+	ShaderCubeIds.push_back(LoadShader("..\\Shaders\\Texture.fragment.glsl", GL_FRAGMENT_SHADER));
+	ShaderCubeIds.push_back(LoadShader("..\\Shaders\\Texture.vertex.glsl", GL_VERTEX_SHADER));
 	
 	glAttachShader(ShaderCubeIds[0], ShaderCubeIds[1]);
 	cout << ShaderCubeIds.at(0) << endl;
 	cout << ShaderCubeIds.at(1) << endl;
 	cout << ShaderCubeIds.at(2) << endl;
-	ExitOnGLError("ERROR: Could not glAttachShader frament shader program");
+	ExitOnGLError("ERROR: Could not glAttachShader fragment shader program");
 	glAttachShader(ShaderCubeIds[0], ShaderCubeIds[2]);
 	ExitOnGLError("ERROR: Could not glAttachShader vertex shader program");
 	
@@ -153,10 +153,10 @@ void Cube::Create()
 	state.ShaderShadowIds[0] = glCreateProgram();
 	ExitOnGLError("ERROR: Could not create the shadow shader program");
 	
-	state.ShaderShadowIds[1] = LoadShader("ShadowMap.fragment.glsl", GL_FRAGMENT_SHADER);
-	state.ShaderShadowIds[2] = LoadShader("ShadowMap.vertex.glsl", GL_VERTEX_SHADER);
+	state.ShaderShadowIds[1] = LoadShader("..\\Shaders\\ShadowMap.fragment.glsl", GL_FRAGMENT_SHADER);
+	state.ShaderShadowIds[2] = LoadShader("..\\Shaders\\ShadowMap.vertex.glsl", GL_VERTEX_SHADER);
 	glAttachShader(state.ShaderShadowIds[0], state.ShaderShadowIds[1]);
-	ExitOnGLError("ERROR: Could not glAttachShader frament shader program");
+	ExitOnGLError("ERROR: Could not glAttachShader fragment shader program");
 	glAttachShader(state.ShaderShadowIds[0], state.ShaderShadowIds[2]);
 	ExitOnGLError("ERROR: Could not glAttachShader vertex shader program");
 	
@@ -184,10 +184,12 @@ void Cube::Create()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, state.shadow_tex, 0);
-	if (GL_FRAMEBUFFER_COMPLETE == glCheckFramebufferStatus(GL_FRAMEBUFFER)) {
+	if (GL_FRAMEBUFFER_COMPLETE == glCheckFramebufferStatus(GL_FRAMEBUFFER))
+    {
         printf("FBO %d set up successfully. Yay!\n", state.shadow_Fbuffer);
-        }
-    else {
+    }
+    else
+    {
         printf("FBO %d NOT set up properly!\n", state.shadow_Fbuffer);
     }
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -237,8 +239,8 @@ void Cube::Create()
 	ExitOnGLError("ERROR: Could not set VAO attributes");
 	
 	glBindVertexArray(0);
-	string filename = "C:\\Users\\Public\\Pictures\\Sample Pictures\\horse.png";
-	string bumpyFilename = "C:\\Users\\Public\\Pictures\\Sample Pictures\\normal.jpg";
+	string filename = "..\\Textures\\horse.png";
+	string bumpyFilename = "..\\Textures\\normal.jpg";
 	glGenSamplers(1, &teaSampler);
 	SetTexParams(filename, teaTex, teaSampler, 0);
 	
@@ -342,35 +344,34 @@ void Cube::DrawFromLightPOV()
 	glUseProgram(state.ShaderShadowIds[0]);
 
 	ExitOnGLError("ERROR: Could not use the shadow shader program in DrawFromLightPOV cube");
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-	//glClear(GL_DEPTH_BUFFER_BIT);
-	glDepthFunc(GL_LEQUAL);
+	
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	glFrontFace(GL_CW);
-	glBindFramebuffer(GL_FRAMEBUFFER, state.shadow_Fbuffer);
-	glBindTexture(GL_TEXTURE_2D, state.shadow_tex);
+//	glBindFramebuffer(GL_FRAMEBUFFER, state.shadow_Fbuffer);
+//	glBindTexture(GL_TEXTURE_2D, state.shadow_tex);
 	//cout << state.shadow_Fbuffer << endl;
 	glUniformMatrix4fv(ShadowModelMatrixUniformLocation, 1, GL_FALSE, ModelMatrix.m);
-	glUniformMatrix4fv(ShadowViewMatrixUniformLocation, 1, GL_FALSE, state.GetShadowViewMatrix().m);
+	//glUniformMatrix4fv(ShadowViewMatrixUniformLocation, 1, GL_FALSE, state.GetShadowViewMatrix().m);
+    glUniformMatrix4fv(ShadowViewMatrixUniformLocation, 1, GL_FALSE,state.GetShadowViewMatrix().m);
+    
 	glUniformMatrix4fv(OrthoProjectionMatrixUniformLocation, 1, GL_FALSE, state.GetOrthoProjectionMatrix().m);
 	
   	ExitOnGLError("ERROR: Could not set the shader uniforms");
 
 	glBindVertexArray(BufferIds[0]);
 	ExitOnGLError("ERROR: Could not bind the VAO for drawing purposes");
-
+    glColorMask(GL_TRUE, GL_FALSE, GL_FALSE, GL_FALSE);
 	glDrawElements(GL_TRIANGLES, sizeof(INDICES), GL_UNSIGNED_INT, (GLvoid*)0);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 	ExitOnGLError("ERROR: Could not draw the cube");
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, 0);
+//	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+//	glBindTexture(GL_TEXTURE_2D, 0);
 	glBindVertexArray(0);
-	glDisable(GL_DEPTH_TEST);
 	glUseProgram(0);
 }
 
-void Cube::Draw()
+void Cube::Draw(GLboolean disableColorWrite)
 {
 	glUseProgram((GLuint)ShaderCubeIds.at(0));
 		ExitOnGLError("ERROR: Could not use the cube shader program");
@@ -385,6 +386,7 @@ void Cube::Draw()
 
 		glUniformMatrix4fv(ModelMatrixUniformLocation, 1, GL_FALSE, ModelMatrix.m);
 		glUniformMatrix4fv(ViewMatrixUniformLocation, 1, GL_FALSE, state.GetViewMatrix().m);
+
 		glUniformMatrix4fv(ProjectionMatrixUniformLocation, 1, GL_FALSE, state.GetProjectionMatrix().m);
 		glUniform3fv(DirectionLightUniformLocation, 1, (state.GetLightDirection()).v);
 		glUniform4fv(DirectionLightColourUniformLocation, 1, DirectLightColour.Color);
@@ -407,7 +409,7 @@ void Cube::Draw()
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, bumpTex); /* Binding of texture name */
 			glBindSampler(0, bumpSampler);
-
+            glColorMask(disableColorWrite,disableColorWrite,disableColorWrite,disableColorWrite);
 			glDrawElements(GL_TRIANGLES, sizeof(INDICES), GL_UNSIGNED_INT, (GLvoid*)0);
 			ExitOnGLError("ERROR: Could not draw the cube");
 	

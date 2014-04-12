@@ -37,8 +37,8 @@ void Grid::Create()
 	ShaderGridIds.push_back(glCreateProgram());
 	ExitOnGLError("ERROR: Could not create the shader program- Grid basic draw");
 	
-		ShaderGridIds.push_back(LoadShader("Phong.fragment.glsl", GL_FRAGMENT_SHADER));
-		ShaderGridIds.push_back(LoadShader("Phong.vertex.glsl", GL_VERTEX_SHADER));
+		ShaderGridIds.push_back(LoadShader("..\\Shaders\\Phong.fragment.glsl", GL_FRAGMENT_SHADER));
+		ShaderGridIds.push_back(LoadShader("..\\Shaders\\Phong.vertex.glsl", GL_VERTEX_SHADER));
 		glAttachShader(ShaderGridIds.at(0), ShaderGridIds.at(1));
 		glAttachShader(ShaderGridIds.at(0), ShaderGridIds.at(2));
 
@@ -147,7 +147,7 @@ void Grid::Create()
 
 	glBindVertexArray(0);
 
-	string filename = "C:\\Users\\Public\\Pictures\\Sample Pictures\\jellyfish.jpg";
+	string filename = "..\\Textures\\Jellyfish.jpg";
 	glGenSamplers(1, &g_gaussSampler);
 	SetTexParams(filename, image, g_gaussSampler, 0);
 	
@@ -172,7 +172,7 @@ void Grid::SetTexParams(string filename, GLuint &imageHandle, GLuint &sampler, G
 	
 	bool  success = ilLoadImage((const ILstring)filename.c_str()); /* Loading of image "image.jpg" */
 
-    if (success) /* If no error occured: */
+    if (success) /* If no error occurred: */
 	{
 	   cout << "\n Loaded image\n";
 	   success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE); /* Convert every colour component into
@@ -203,7 +203,7 @@ void Grid::Destroy()
 	glDeleteShader(ShaderGridIds.at(1));
 	glDeleteShader(ShaderGridIds.at(2));
 	glDeleteProgram(ShaderGridIds.at(0));
-	ExitOnGLError("ERROR: Coul d not destroy the shaders");
+	ExitOnGLError("ERROR: Could not destroy the shaders");
 
 	glDeleteBuffers(2, &BufferIds[1]);
 	glDeleteVertexArrays(1, &BufferIds[0]);
@@ -213,27 +213,33 @@ void Grid::Destroy()
 
 void Grid::DrawFromLightPOV()
 {
-	return;
-	ModelMatrix = IDENTITY_MATRIX;
-	
+//	ModelMatrix = IDENTITY_MATRIX;
 
 	glUseProgram(state.ShaderShadowIds[0]);
-	glEnable(GL_DEPTH_TEST);
-	glDepthMask(GL_TRUE);
-	glClear(GL_DEPTH_BUFFER_BIT);
-	glDepthFunc(GL_LEQUAL);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	glFrontFace(GL_CCW);
-	glBindFramebuffer(GL_FRAMEBUFFER, state.shadow_Fbuffer);
-	glBindTexture(GL_TEXTURE_2D, state.shadow_tex);
+//    ExitOnGLError("ERROR: Could not glUseProgram(state.ShaderShadowIds[0]);");
 
-	ExitOnGLError("ERROR: Could not use the shader program grid shadow");
+    /*glEnable(GL_DEPTH_TEST);
+    glDepthMask(GL_TRUE);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    glDepthFunc(GL_LEQUAL);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);*/
 
-	glUniformMatrix4fv(ModelMatrixUniformLocation, 1, GL_FALSE, ModelMatrix.m);
-	glUniformMatrix4fv(ViewMatrixUniformLocation, 1, GL_FALSE, state.GetShadowViewMatrix().m);
-	glUniformMatrix4fv(OrthoProjectionMatrixUniformLocation, 1, GL_FALSE, state.GetOrthoProjectionMatrix().m);
+//	glBindFramebuffer(GL_FRAMEBUFFER, state.shadow_Fbuffer);
+//    ExitOnGLError("ERROR: Could not glBindFramebuffer(GL_FRAMEBUFFER, state.shadow_Fbuffer);");
+//	glBindTexture(GL_TEXTURE_2D, state.shadow_tex);
+
+ //   ExitOnGLError("ERROR: Could not glBindTexture(GL_TEXTURE_2D, state.shadow_tex);");
 	
+
+	/*glUniformMatrix4fv(ModelMatrixUniformLocation, 1, GL_FALSE, ModelMatrix.m);
+    ExitOnGLError("ERROR: glUniformMatrix4fv(ModelMatrixUniformLocation, 1, GL_FALSE, ModelMatrix.m);");
+	glUniformMatrix4fv(ViewMatrixUniformLocation, 1, GL_FALSE, state.GetShadowViewMatrix().m);
+    ExitOnGLError("ERROR: glUniformMatrix4fv(ViewMatrixUniformLocation, 1, GL_FALSE, state.GetShadowViewMatrix().m);");
+	glUniformMatrix4fv(OrthoProjectionMatrixUniformLocation, 1, GL_FALSE, state.GetOrthoProjectionMatrix().m);
+    ExitOnGLError("ERROR: glUniformMatrix4fv(OrthoProjectionMatrixUniformLocation, 1, GL_FALSE, state.GetOrthoProjectionMatrix().m)");
+*/
 
 	glBindVertexArray(BufferIds[0]);
 	ExitOnGLError("ERROR: Could not bind the VAO for drawing purposes");
@@ -241,15 +247,14 @@ void Grid::DrawFromLightPOV()
 	glDrawElements(GL_TRIANGLES, sizeof(indices), GL_UNSIGNED_SHORT, (GLvoid*)0);
 	
 	ExitOnGLError("ERROR: Could not draw the grid");
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glDisable(GL_DEPTH_TEST);
+//	glBindTexture(GL_TEXTURE_2D, 0);
+//	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glBindVertexArray(0);
-	//glUseProgram(0);
+	glUseProgram(0);
 
 }
 
-void Grid::Draw()
+void Grid::Draw(GLboolean disableColorWrite)
 {
 	ModelMatrix = IDENTITY_MATRIX;
 	
@@ -263,6 +268,8 @@ void Grid::Draw()
 	
 	glUseProgram(ShaderGridIds.at(0));
 	ExitOnGLError("ERROR: Could not use the shader program grid draw --------------------->");
+
+    glColorMask(disableColorWrite,disableColorWrite,disableColorWrite,disableColorWrite);
 
 	glUniformMatrix4fv(ModelMatrixUniformLocation, 1, GL_FALSE, ModelMatrix.m);
 	glUniformMatrix4fv(ViewMatrixUniformLocation, 1, GL_FALSE, state.GetViewMatrix().m);
