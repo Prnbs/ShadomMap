@@ -5,6 +5,8 @@
 #include <sstream>
 #include "objLoader.h"
 
+#define DEPTH_TEXTURE_SIZE      4096
+
 map<std::string, Edge> edgeTable;
 map<std::string, Edge>::iterator it;
 Vertex ShadowVertices[20000];
@@ -150,7 +152,7 @@ void Cube::Create()
 	ExitOnGLError("ERROR: Could not get shader uniform locations -- ");
 
 	//Shadow mapping
-	state.ShaderShadowIds[0] = glCreateProgram();
+	/*state.ShaderShadowIds[0] = glCreateProgram();
 	ExitOnGLError("ERROR: Could not create the shadow shader program");
 	
 	state.ShaderShadowIds[1] = LoadShader("..\\Shaders\\ShadowMap.fragment.glsl", GL_FRAGMENT_SHADER);
@@ -168,7 +170,7 @@ void Cube::Create()
 	ShadowViewMatrixUniformLocation = glGetUniformLocation(state.ShaderShadowIds[0], "ShadowViewMatrix");
 	ExitOnGLError("ERROR: Could not get shadow shader uniform locations -- ShadowViewMatrix");
 	OrthoProjectionMatrixUniformLocation = glGetUniformLocation(state.ShaderShadowIds[0], "OrthoProjectionMatrix");
-	ExitOnGLError("ERROR: Could not get shadow shader uniform locations -- OrthoProjectionMatrixUniformLocation"); 
+	ExitOnGLError("ERROR: Could not get shadow shader uniform locations -- OrthoProjectionMatrixUniformLocation"); */
 
 	glGenFramebuffers(1, &state.shadow_Fbuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, state.shadow_Fbuffer);
@@ -177,13 +179,22 @@ void Cube::Create()
 	ExitOnGLError("ERROR: Could not gen glGenTextures for shadow shader "); 
 	glBindTexture(GL_TEXTURE_2D, state.shadow_tex);
 	ExitOnGLError("ERROR: Could not bind glGenTextures for shadow shader "); 
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT32, 1220, 650);
+	glTexStorage2D(GL_TEXTURE_2D, 11, GL_DEPTH_COMPONENT32F, DEPTH_TEXTURE_SIZE, DEPTH_TEXTURE_SIZE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
 
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, state.shadow_tex, 0);
+
+	glGenTextures(1, &state.debug_shadow_tex);
+    glBindTexture(GL_TEXTURE_2D, state.debug_shadow_tex);
+    glTexStorage2D(GL_TEXTURE_2D, 1, GL_R32F, DEPTH_TEXTURE_SIZE, DEPTH_TEXTURE_SIZE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, state.debug_shadow_tex, 0);
+
 	if (GL_FRAMEBUFFER_COMPLETE == glCheckFramebufferStatus(GL_FRAMEBUFFER))
     {
         printf("FBO %d set up successfully. Yay!\n", state.shadow_Fbuffer);
@@ -327,12 +338,12 @@ void Cube::Destroy()
 	ExitOnGLError("ERROR: Could not destroy the buffer objects");
 
 
-	glDetachShader(state.ShaderShadowIds[0],state.ShaderShadowIds[1]);
+	/*glDetachShader(state.ShaderShadowIds[0],state.ShaderShadowIds[1]);
 	glDetachShader(state.ShaderShadowIds[0],state.ShaderShadowIds[2]);
 	glDeleteShader(state.ShaderShadowIds[1]);
 	glDeleteShader(state.ShaderShadowIds[2]);
 	glDeleteProgram(state.ShaderShadowIds[0]);
-	ExitOnGLError("ERROR: Could not destroy the shaders");
+	ExitOnGLError("ERROR: Could not destroy the shaders");*/
 
 	glDeleteBuffers(1, &ShadowBufferIds[1]);
 	glDeleteVertexArrays(1, &ShadowBufferIds[0]);
@@ -373,6 +384,8 @@ void Cube::DrawFromLightPOV()
 
 void Cube::Draw(GLboolean disableColorWrite)
 {
+	static const GLfloat ones[] = { 1.0f };
+    static const GLfloat zero[] = { 0.0f };
 	glUseProgram((GLuint)ShaderCubeIds.at(0));
 		ExitOnGLError("ERROR: Could not use the cube shader program");
 
@@ -398,6 +411,8 @@ void Cube::Draw(GLboolean disableColorWrite)
 		Matrix MVInv = TransposeMatrix(&(InverseMatrix(&MV)));
 		glUniformMatrix4fv(MVMatrixUniformLocation, 1, GL_FALSE, MVInv.m);
 		ExitOnGLError("ERROR: Could not set the shader uniforms");
+
+		glClearBufferfv(GL_DEPTH, 0, ones);
 
 		glBindVertexArray(BufferIds[0]);
 			ExitOnGLError("ERROR: Could not bind the VAO for drawing purposes");

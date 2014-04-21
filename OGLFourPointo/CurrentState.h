@@ -6,6 +6,7 @@ class CurrentState
 {
 private:
     static Matrix ViewMatrix;
+	static Matrix ActualViewMatrix;
 
 public:
 	static Vector Eye,
@@ -21,13 +22,14 @@ public:
 	static Vector LightDir;
 
 	static bool shadowMat;
-	GLuint static shadow_Fbuffer, shadow_tex;
+	GLuint static shadow_Fbuffer, shadow_tex, debug_shadow_tex;
 
     Vector GetEye();
 	Vector GetLookAt();
 	Matrix GetProjectionMatrix();
 	Matrix GetOrthoProjectionMatrix();
 	Matrix GetViewMatrix();
+	Matrix GetActualViewMatrix();
 	Matrix GetShadowViewMatrix();
 	Matrix GetShadowBiasMatrix(Matrix);
 	clock_t GetLastTime();
@@ -41,6 +43,7 @@ public:
 	void SetProjectionMatrix(Matrix);
 	void SetOrthoProjectionMatrix(Matrix);
 	void SetViewMatrix(Matrix);
+	void SetActualViewMatrix(Matrix);
 	void SetShadowViewMatrix(Matrix);
 	void SetLastTime(clock_t);
 	void SetProgramId(GLuint);

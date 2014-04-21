@@ -4,6 +4,7 @@
 #include "CurrentState.h"
 #include "World.h"
 #define WINDOW_TITLE_PREFIX "Chapter 4"
+#define DEPTH_TEXTURE_SIZE      4096
 
 using namespace std;
 //1520,1000
@@ -28,6 +29,8 @@ Vector
 	LightDir;
 
 bool meshON = false;
+
+bool shot = false;
 
 clock_t LastTime = 0;
 
@@ -114,7 +117,7 @@ void Initialize(int argc, char* argv[])
     TranslateMatrix(&ViewMatrix, Eye.v[0], Eye.v[1], Eye.v[2]);
 
     //PUTTING CAMERA IN LIGHT"S POSN
-  /*  CreateViewMatrix(&ViewMatrix, InvDirectLight, Eye);
+ /*   CreateViewMatrix(&ViewMatrix, InvDirectLight, Eye);
     TranslateMatrix(&ViewMatrix, Eye.v[0], Eye.v[1], Eye.v[2]);*/
 
 
@@ -126,6 +129,7 @@ void Initialize(int argc, char* argv[])
 	state.SetEye(Eye);
 	state.SetLookAt(LookAt);
 	state.SetViewMatrix(ViewMatrix);
+	state.SetActualViewMatrix(ViewMatrix);
 	state.SetShadowViewMatrix(ShadowViewMatrix);
 	world.CreateBodies();
 
@@ -173,6 +177,7 @@ void InitWindow(int argc, char* argv[])
 
 void RenderFunction(void)
 {
+	static const GLfloat zero[] = { 0.0f };
 	++FrameCount;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -181,13 +186,37 @@ void RenderFunction(void)
     glDepthMask(GL_TRUE);
     glDepthFunc(GL_LEQUAL);
 
-    world.DrawFromLightPOV();
-    glDisable(GL_DEPTH_TEST);
-	glDepthMask(GL_FALSE);//Disable writes to Depth Buffer
+	glBindFramebuffer(GL_FRAMEBUFFER, state.shadow_Fbuffer);
+	glViewport(0, 0, DEPTH_TEXTURE_SIZE, DEPTH_TEXTURE_SIZE); 
+    glEnable(GL_POLYGON_OFFSET_FILL);
+    glPolygonOffset(4.0f, 4.0f);
+	static const GLenum buffs[] = { GL_COLOR_ATTACHMENT0 };
+    glDrawBuffers(1, buffs);
+	glClearBufferfv(GL_DEPTH, 0, zero);
+	
+	state.SetViewMatrix(state.GetShadowViewMatrix());
+    world.DrawBodies(GL_FALSE);
 
+	glDisable(GL_POLYGON_OFFSET_FILL);
+	ExitOnGLError("ERROR:  glDisable(GL_POLYGON_OFFSET_FILL)");
+
+	if(shot)
+	{
+		int row_size = ((DEPTH_TEXTURE_SIZE * 3 + 3) & ~3);
+		int data_size = row_size * DEPTH_TEXTURE_SIZE;
+		unsigned char * data = (unsigned char *) malloc (data_size);
+		screenShot(DEPTH_TEXTURE_SIZE, DEPTH_TEXTURE_SIZE, "shot.tga", GL_DEPTH_COMPONENT, GL_BYTE, data, data_size);
+		shot = false;
+	}
+	 
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	glViewport(0, 0, CurrentWidth, CurrentHeight); 
+	glClear(GL_DEPTH_BUFFER_BIT);
+
+	state.SetViewMatrix(state.GetActualViewMatrix());
     world.DrawBodies(GL_TRUE);
 
-	//glDisable(GL_DEPTH_TEST);
 	glutSwapBuffers();
 	glutPostRedisplay();
 }
@@ -262,7 +291,7 @@ void ResetMouse(int Value)
 void KeyboardFunction(unsigned char Key, int X, int Y)
 {
 	X; Y; // Resolves warning C4100: unreferenced formal parameter
-	ViewMatrix = state.GetViewMatrix();
+	ViewMatrix = state.GetActualViewMatrix();
 
 	switch (Key)
 	{
@@ -270,21 +299,21 @@ void KeyboardFunction(unsigned char Key, int X, int Y)
 		case 'w':
 			{
 				ViewMatrix.m[14] += 0.1;
-				state.SetViewMatrix(ViewMatrix);
+				state.SetActualViewMatrix(ViewMatrix);
 				break;
 			}
 		case 'S':
 		case 's':
 			{
 				ViewMatrix.m[14] -= 0.1;
-				state.SetViewMatrix(ViewMatrix);
+				state.SetActualViewMatrix(ViewMatrix);
 				break;
 			}
 		case 'A':
 		case 'a':
 			{
 				ViewMatrix.m[12] += 0.1;
-				state.SetViewMatrix(ViewMatrix);
+				state.SetActualViewMatrix(ViewMatrix);
 				break;
 			}
 
@@ -292,21 +321,21 @@ void KeyboardFunction(unsigned char Key, int X, int Y)
 		case 'd':
 			{
 				ViewMatrix.m[12] -= 0.1;
-				state.SetViewMatrix(ViewMatrix);
+				state.SetActualViewMatrix(ViewMatrix);
 				break;
 			}
 		case 'q':
 		case 'Q':
 			{
 				ViewMatrix.m[13] -= 0.1;
-				state.SetViewMatrix(ViewMatrix);
+				state.SetActualViewMatrix(ViewMatrix);
 				break;
 			}
 		case 'z':
 		case 'Z':
 			{
 				ViewMatrix.m[13] += 0.1;
-				state.SetViewMatrix(ViewMatrix);
+				state.SetActualViewMatrix(ViewMatrix);
 				break;
 			}
 		case 'l':
@@ -331,6 +360,12 @@ void KeyboardFunction(unsigned char Key, int X, int Y)
 					glPolygonMode ( GL_FRONT_AND_BACK, GL_FILL ) ;
 					meshON = false;
 				}
+			}
+		case 'r':
+		case 'R':
+			{
+				shot = true;
+				break;
 			}
 		default:
 			break;

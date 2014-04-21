@@ -22,6 +22,24 @@
 #include "Utils.h"
 #include <iostream>
 
+#pragma pack (push, 1)
+	struct
+	{
+		unsigned char identsize; // Size of following ID field
+		unsigned char cmaptype; // Color map type 0 = none
+		unsigned char imagetype; // Image type 2 = rgb
+		short cmapstart; // First entry in palette
+		short cmapsize; // Number of entries in palette
+		unsigned char cmapbpp; // Number of bits per palette entry
+		short xorigin; // X origin
+		short yorigin; // Y origin
+		short width; // Width in pixels
+		short height; // Height in pixels
+		unsigned char bpp; // Bits per pixel
+		unsigned char descriptor; // Descriptor bits
+	} tga_header;
+	#pragma pack (pop)
+
 float Cotangent(float angle)
 {
 	return (float)(1.0 / tan(angle));
@@ -50,6 +68,30 @@ Matrix MultiplyMatrices(const Matrix* m1, const Matrix* m2)
 										 (m1->m[row_offset + 3] * m2->m[column + 12]);
 	return out;
 
+}
+
+void screenShot(int windowWidth, int windowHeight, char* name, GLenum format, GLenum type, unsigned char* data, int data_size)
+{
+	/*int row_size = ((windowWidth * 3 + 3) & ~3);
+	int data_size = row_size * windowHeight;
+	unsigned char * data = new unsigned char [data_size];*/
+	  
+	glReadPixels(0, 0, // Origin
+			windowWidth, windowHeight, // Size
+			format, type, // Format, type
+			data); // Data
+	ExitOnGLError("ERROR: Error in glReadPixels");
+	memset(&tga_header, 0, sizeof(tga_header));
+	tga_header.imagetype = 2;
+	tga_header.width = (short)windowWidth;
+	tga_header.height = (short)windowHeight;
+	tga_header.bpp = 24;
+	FILE * f_out = fopen(name, "wb");
+	fwrite(&tga_header, sizeof(tga_header), 1, f_out);
+	fwrite(data, data_size, 1, f_out);
+	fclose(f_out);
+	delete [] data;
+	std::cout << "Took screenshot" << std::endl;
 }
 
 void RotateAboutX(Matrix* m, float angle)

@@ -7,13 +7,16 @@ Vector CurrentState::LookAt = ORIGIN;
 Matrix CurrentState::ProjectionMatrix = IDENTITY_MATRIX;
 Matrix CurrentState::ShadowBiasMatrix = IDENTITY_MATRIX;
 Matrix CurrentState::ViewMatrix = IDENTITY_MATRIX;
+Matrix CurrentState::ActualViewMatrix = IDENTITY_MATRIX;
 Matrix CurrentState::OrthoProjectionMatrix = IDENTITY_MATRIX;
 Matrix CurrentState::ShadowViewMatrix = IDENTITY_MATRIX;
 clock_t CurrentState::LastTime = 0;
 Vector CurrentState::LightDir = ORIGIN;
 bool CurrentState::shadowMat = false;
 GLuint CurrentState::shadow_Fbuffer = 0;
+
 GLuint CurrentState::shadow_tex = 0;
+GLuint CurrentState::debug_shadow_tex = 0;
 
 Vector CurrentState::GetEye()
 {
@@ -43,6 +46,11 @@ Matrix CurrentState::GetOrthoProjectionMatrix()
 Matrix CurrentState::GetViewMatrix()
 {
 	return ViewMatrix;
+}
+
+Matrix CurrentState::GetActualViewMatrix()
+{
+	return ActualViewMatrix;
 }
 
 Matrix CurrentState::GetShadowViewMatrix()
@@ -79,6 +87,11 @@ void CurrentState::SetOrthoProjectionMatrix(Matrix data)
 void CurrentState::SetViewMatrix(Matrix data)
 {
 	memcpy(ViewMatrix.m, data.m, sizeof(data.m));
+}
+
+void CurrentState::SetActualViewMatrix(Matrix data)
+{
+	memcpy(ActualViewMatrix.m, data.m, sizeof(data.m));
 }
 
 void CurrentState::SetShadowViewMatrix(Matrix data)

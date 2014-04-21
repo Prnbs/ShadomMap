@@ -77,6 +77,8 @@ static const Vector ORIGIN = { { 0, 0 , 0 } };
 
 static const Vector UP = { { 0, 1.0f, 0} };
 
+
+void screenShot(int windowWidth, int windowHeight, char* name, GLenum format, GLenum type, unsigned char* data, int data_size);
 float Cotangent(float angle);
 float DegreesToRadians(float degrees);
 float RadiansToDegrees(float radians);

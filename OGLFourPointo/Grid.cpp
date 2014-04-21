@@ -9,8 +9,8 @@ void Grid::Create()
 	DirectLightColour.Color[2] = 0.0f;
 	DirectLightColour.Color[3] = 0.1f;
 
-	Vertex Grid[(SEGMENT+1) * (SEGMENT+1)]; 
-	Vector Tex[(SEGMENT+1) * (SEGMENT+1)];
+	Vertex Grid[(SEGMENT+2) * (SEGMENT+2)]; 
+	Vector Tex[(SEGMENT+2) * (SEGMENT+2)];
 	int n = 0;
 	for(int i = 0; i <= SEGMENT; i++)
 	{
@@ -156,11 +156,15 @@ void Grid::Create()
 		   glSamplerParameteri(g_gaussSampler, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 		   glSamplerParameteri(g_gaussSampler, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
+    ExitOnGLError("ERROR: SetTexParams(filename, image, g_gaussSampler, 0)");
+
 	glGenSamplers(1, &d_shadowSampler);
 		   glSamplerParameteri(d_shadowSampler, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		   glSamplerParameteri(d_shadowSampler, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		   glSamplerParameteri(d_shadowSampler, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 		   glSamplerParameteri(d_shadowSampler, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	ExitOnGLError("ERROR: glGenSamplers(1, &d_shadowSampler)");
 }
 
 void Grid::SetTexParams(string filename, GLuint &imageHandle, GLuint &sampler, GLuint offset)
@@ -256,6 +260,8 @@ void Grid::DrawFromLightPOV()
 
 void Grid::Draw(GLboolean disableColorWrite)
 {
+	static const GLfloat ones[] = { 1.0f };
+    static const GLfloat zero[] = { 0.0f };
 	ModelMatrix = IDENTITY_MATRIX;
 	
 	//glEnable(GL_CULL_FACE);
@@ -281,6 +287,8 @@ void Grid::Draw(GLboolean disableColorWrite)
 	glUniform1i(ShadowMapUniformSampler,1);
 	glUniformMatrix4fv(ShadowBiasMatrixUniformLocation, 1, GL_FALSE, state.GetShadowBiasMatrix(ModelMatrix).m);
   
+	glClearBufferfv(GL_DEPTH, 0, ones);
+
 	Matrix MV = MultiplyMatrices(&(state.GetViewMatrix()), &ModelMatrix);
 	Matrix MVInv = TransposeMatrix(&(InverseMatrix(&MV)));
 	glUniformMatrix4fv(MVMatrixUniformLocation, 1, GL_FALSE, MVInv.m);
