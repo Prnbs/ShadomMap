@@ -8,7 +8,10 @@ out vec3 FragNormal;
 out vec4 FragPosition;
 out vec3 DirectionLightEye;
 out vec3 TexPosn;
-out vec4 shadow_coord;
+out VS_OUT
+{
+	vec4 shadow_coord;
+}vs_out;
 
 uniform mat4 ModelMatrix;
 uniform mat4 ViewMatrix;
@@ -25,6 +28,6 @@ void main(void)
 	TexPosn = vec3(ModelMatrix  * vec4(in_Tex_Posn, 0.0));
 	DirectionLightEye = vec3(ViewMatrix * vec4(DirectionLight, 0.0));
 	gl_Position = (ProjectionMatrix * ViewMatrix * ModelMatrix) * in_Position;
-//	shadow_coord = vec4(ShadowBias * in_Position,1);
+	vs_out.shadow_coord = ShadowBias * in_Position;
 } 
 

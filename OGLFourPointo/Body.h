@@ -17,6 +17,7 @@ public:
 		MVMatrixUniformLocation,
 		ShadowBiasMatrixUniformLocation,
 		ShadowMapUniformSampler,
+		ShadowModelMatrixUniformLocation,
 		ViewVectorUniformLocation;
 
 	GLuint BufferIds[3];

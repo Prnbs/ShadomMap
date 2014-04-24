@@ -32,6 +32,7 @@ public:
 	Matrix GetActualViewMatrix();
 	Matrix GetShadowViewMatrix();
 	Matrix GetShadowBiasMatrix(Matrix);
+	
 	clock_t GetLastTime();
 	Vector GetLightDirection();
 

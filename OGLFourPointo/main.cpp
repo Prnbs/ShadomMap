@@ -34,6 +34,8 @@ bool shot = false;
 
 clock_t LastTime = 0;
 
+ Vector InvDirectLight;
+
 void Initialize(int, char*[]);
 void InitWindow(int, char*[]);
 void ResizeFunction(int, int);
@@ -109,9 +111,9 @@ void Initialize(int argc, char* argv[])
 	ShadowViewMatrix = IDENTITY_MATRIX;
 	Eye.v[0] = -0.2;	Eye.v[1] = -0.4;	Eye.v[2] = -2.0f;
 	LookAt.v[0] = 0;	LookAt.v[1] = 0;	LookAt.v[2] = 0.0f;
-    Vector InvDirectLight;
-    ScaleVector(&DirectLight, -1.0, &InvDirectLight);
-    Vector ShadowLookAt = DirectLight;
+   
+	ScaleVector(&state.GetLightDirection(), -1.0, &InvDirectLight);
+   // Vector ShadowLookAt = DirectLight;
    //GOLDEN FOR VIEW
     CreateViewMatrix(&ViewMatrix, Eye, LookAt);
     TranslateMatrix(&ViewMatrix, Eye.v[0], Eye.v[1], Eye.v[2]);
@@ -194,6 +196,12 @@ void RenderFunction(void)
     glDrawBuffers(1, buffs);
 	glClearBufferfv(GL_DEPTH, 0, zero);
 	
+
+	ScaleVector(&state.GetLightDirection(), -1.0, &InvDirectLight);
+	CreateViewMatrix(&ShadowViewMatrix, InvDirectLight, Eye);
+    TranslateMatrix(&ShadowViewMatrix, Eye.v[0], Eye.v[1], Eye.v[2]);
+	state.SetShadowViewMatrix(ShadowViewMatrix);
+
 	state.SetViewMatrix(state.GetShadowViewMatrix());
     world.DrawBodies(GL_FALSE);
 
@@ -343,6 +351,15 @@ void KeyboardFunction(unsigned char Key, int X, int Y)
 			{
 				LightDir = state.GetLightDirection();
 				LightDir.v[0] += 0.1;
+				state.SetLightDirection(LightDir);
+				PrintVector(LightDir);
+				break;
+			}
+		case 'o':
+		case 'O':
+			{
+				LightDir = state.GetLightDirection();
+				LightDir.v[0] -= 0.1;
 				state.SetLightDirection(LightDir);
 				PrintVector(LightDir);
 				break;

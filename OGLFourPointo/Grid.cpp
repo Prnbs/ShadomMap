@@ -77,6 +77,10 @@ void Grid::Create()
 	ShadowMapUniformSampler =  glGetUniformLocation(ShaderGridIds.at(0), "shadow_tex");
 	ExitOnGLError("ERROR: Could not get shadow_tex uniform locations -- gRID");
 
+	ShadowModelMatrixUniformLocation = glGetUniformLocation(ShaderGridIds.at(0), "Shadow_Matrix");
+	ExitOnGLError("ERROR: Could not get shadow shader uniform locations -- ShadowViewMatrix");
+
+
 	glGenVertexArrays(1, &BufferIds[0]);
 	ExitOnGLError("ERROR: Could not generate the VAO");
 	glBindVertexArray(BufferIds[0]); 
@@ -286,7 +290,7 @@ void Grid::Draw(GLboolean disableColorWrite)
 	glUniform1i(gaussianTextureUnif, 0);
 	glUniform1i(ShadowMapUniformSampler,1);
 	glUniformMatrix4fv(ShadowBiasMatrixUniformLocation, 1, GL_FALSE, state.GetShadowBiasMatrix(ModelMatrix).m);
-  
+	
 	glClearBufferfv(GL_DEPTH, 0, ones);
 
 	Matrix MV = MultiplyMatrices(&(state.GetViewMatrix()), &ModelMatrix);

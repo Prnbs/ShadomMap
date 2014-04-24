@@ -124,3 +124,4 @@ Matrix CurrentState::GetShadowBiasMatrix(Matrix ModelMatrix){
 	}
 }
 
+

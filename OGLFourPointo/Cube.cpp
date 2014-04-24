@@ -139,13 +139,15 @@ void Cube::Create()
 	ExitOnGLError("ERROR: Could not link the shader program");
 
 	ModelMatrixUniformLocation = glGetUniformLocation(ShaderCubeIds[0], "ModelMatrix");
+	ExitOnGLError("ERROR: Could not get shadow shader uniform locations -- ModelMatrix");
 	ViewMatrixUniformLocation = glGetUniformLocation(ShaderCubeIds[0], "ViewMatrix");
 	ProjectionMatrixUniformLocation = glGetUniformLocation(ShaderCubeIds[0], "ProjectionMatrix");
 	DirectionLightUniformLocation = glGetUniformLocation(ShaderCubeIds[0], "DirectionLight");
 	DirectionLightColourUniformLocation = glGetUniformLocation(ShaderCubeIds[0], "DirectionLightColour");
 	ViewVectorUniformLocation = glGetUniformLocation(ShaderCubeIds[0], "ViewVector");
 	MVMatrixUniformLocation = glGetUniformLocation(ShaderCubeIds[0], "MVMatrix");
-
+	ExitOnGLError("ERROR: Could not get shadow shader uniform locations -- MVMatrix");
+	
 	gaussianTextureUnif = glGetUniformLocation(ShaderCubeIds[0], "gaussianTexture");
 	bumpTextureUnif = glGetUniformLocation(ShaderCubeIds[0], "bumpTexture");
 
