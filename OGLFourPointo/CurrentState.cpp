@@ -110,18 +110,19 @@ void CurrentState::SetLightDirection(Vector data)
 }
 
 Matrix CurrentState::GetShadowBiasMatrix(Matrix ModelMatrix){
-	if(shadowMat)
-		return ShadowBiasMatrix;
-	else{
+  /*  if(shadowMat)
+        return ShadowBiasMatrix;
+    else{*/
+        ShadowBiasMatrix = IDENTITY_MATRIX;
 		shadowMat = true;
 		Matrix MV = MultiplyMatrices(&(GetShadowViewMatrix()), &ModelMatrix);
-		Matrix MVP =  MultiplyMatrices(&(GetOrthoProjectionMatrix()), &MV);
-		Matrix bias = IDENTITY_MATRIX;
-		bias.m[0] = 0.5; bias.m[5] = 0.5; bias.m[10] = 0.5;
-		bias.m[12] = 0.5; bias.m[13] = 0.5; bias.m[14] = 0.5;
+		Matrix MVP =  MultiplyMatrices(&(GetProjectionMatrix()), &MV);
+        Matrix bias = IDENTITY_MATRIX;
+        bias.m[0] = 0.5; bias.m[5] = 0.5; bias.m[10] = 0.5;
+        bias.m[12] = 0.5; bias.m[13] = 0.5; bias.m[14] = 0.5;
 		ShadowBiasMatrix = MultiplyMatrices(&ShadowBiasMatrix, &MVP);
 		return ShadowBiasMatrix;
-	}
+	//}
 }
 
 

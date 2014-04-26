@@ -1,10 +1,9 @@
-#version 400
+#version 420
 
 in vec3 FragNormal;
 in vec4 FragPosition;
 in vec3 DirectionLightEye;
 in vec3 TexPosn;
-in vec4 shadow_coord;
 out vec4 out_Color;
 in VS_OUT
 {
@@ -14,7 +13,7 @@ in VS_OUT
 uniform vec4 DirectionLightColour;
 uniform vec3 ViewVector;
 uniform sampler2D gaussianTexture;
-uniform sampler2DShadow shadow_tex;
+layout (binding = 0) uniform sampler2DShadow shadow_tex;
 uniform bool full_shading = true;
   
 void main(void)
@@ -37,10 +36,11 @@ void main(void)
 	vec3 col = mix(ambcolor.rgb, guassianTerm.rgb, guassianTerm.a);
 	float visibility = 1.0;
 	shadowColour = textureProj(shadow_tex, vs_in.shadow_coord) * vec4(1.0);
-	if(shadowColour.z < shadow_coord.x)
-		visibility = 0.1;
+	//if(shadowColour.z < shadow_coord.x)
+	//	visibility = 0.5;
 	out_Color =  vec4(col, ambcolor.a) + specHighlight + ambLight;
 	
-	out_Color = shadowColour * mix(vec4(1.0), out_Color, bvec4(full_shading));
+	//out_Color = vs_in.shadow_coord;
+    	out_Color = shadowColour;
 	
 }

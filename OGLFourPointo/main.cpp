@@ -4,7 +4,7 @@
 #include "CurrentState.h"
 #include "World.h"
 #define WINDOW_TITLE_PREFIX "Chapter 4"
-#define DEPTH_TEXTURE_SIZE      4096
+#define DEPTH_TEXTURE_SIZE  4096
 
 using namespace std;
 //1520,1000
