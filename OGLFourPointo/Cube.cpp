@@ -186,9 +186,9 @@ void Cube::Create()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_GEQUAL);
-	glSamplerParameteri(bumpSampler, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	/*glSamplerParameteri(bumpSampler, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glSamplerParameteri(bumpSampler, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-
+*/
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, state.shadow_tex, 0);
 
 	glGenTextures(1, &state.debug_shadow_tex);

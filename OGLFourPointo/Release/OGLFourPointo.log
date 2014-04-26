@@ -1,20 +1,29 @@
-﻿Build started 4/18/2014 10:57:24 PM.
+﻿Build started 4/25/2014 10:43:07 PM.
      1>Project "E:\Workspace\OpenGL\ShadowMapOGL\ShadomMap\OGLFourPointo\OGLFourPointo.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
-         main.cpp
-     1>main.cpp(108): warning C4305: '=' : truncation from 'double' to 'float'
-     1>main.cpp(170): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>main.cpp(239): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-                 C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\stdio.h(357) : see declaration of 'sprintf'
-     1>main.cpp(285): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>main.cpp(298): warning C4305: '+=' : truncation from 'double' to 'float'
-     1>main.cpp(305): warning C4305: '-=' : truncation from 'double' to 'float'
-     1>main.cpp(312): warning C4305: '+=' : truncation from 'double' to 'float'
-     1>main.cpp(320): warning C4305: '-=' : truncation from 'double' to 'float'
-     1>main.cpp(327): warning C4305: '-=' : truncation from 'double' to 'float'
-     1>main.cpp(334): warning C4305: '+=' : truncation from 'double' to 'float'
-     1>main.cpp(342): warning C4305: '+=' : truncation from 'double' to 'float'
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt Cube.cpp
+         Cube.cpp
+     1>e:\workspace\opengl\shadowmapogl\shadommap\oglfourpointo\obj_parser.h(18): warning C4091: 'typedef ' : ignored on left of 'obj_face' when no variable is declared
+     1>e:\workspace\opengl\shadowmapogl\shadommap\oglfourpointo\obj_parser.h(27): warning C4091: 'typedef ' : ignored on left of 'obj_sphere' when no variable is declared
+     1>e:\workspace\opengl\shadowmapogl\shadommap\oglfourpointo\obj_parser.h(36): warning C4091: 'typedef ' : ignored on left of 'obj_plane' when no variable is declared
+     1>e:\workspace\opengl\shadowmapogl\shadommap\oglfourpointo\obj_parser.h(41): warning C4091: 'typedef ' : ignored on left of 'obj_vector' when no variable is declared
+     1>e:\workspace\opengl\shadowmapogl\shadommap\oglfourpointo\obj_parser.h(56): warning C4091: 'typedef ' : ignored on left of 'obj_material' when no variable is declared
+     1>e:\workspace\opengl\shadowmapogl\shadommap\oglfourpointo\obj_parser.h(63): warning C4091: 'typedef ' : ignored on left of 'obj_camera' when no variable is declared
+     1>e:\workspace\opengl\shadowmapogl\shadommap\oglfourpointo\obj_parser.h(69): warning C4091: 'typedef ' : ignored on left of 'obj_light_point' when no variable is declared
+     1>e:\workspace\opengl\shadowmapogl\shadommap\oglfourpointo\obj_parser.h(76): warning C4091: 'typedef ' : ignored on left of 'obj_light_disc' when no variable is declared
+     1>e:\workspace\opengl\shadowmapogl\shadommap\oglfourpointo\obj_parser.h(82): warning C4091: 'typedef ' : ignored on left of 'obj_light_quad' when no variable is declared
+     1>e:\workspace\opengl\shadowmapogl\shadommap\oglfourpointo\obj_parser.h(105): warning C4091: 'typedef ' : ignored on left of 'obj_growable_scene_data' when no variable is declared
+     1>e:\workspace\opengl\shadowmapogl\shadommap\oglfourpointo\obj_parser.h(138): warning C4091: 'typedef ' : ignored on left of 'obj_scene_data' when no variable is declared
+     1>Cube.cpp(53): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Cube.cpp(54): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Cube.cpp(55): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Cube.cpp(117): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Cube.cpp(118): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Cube.cpp(119): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>Cube.cpp(50): warning C4101: 'radius' : unreferenced local variable
+     1>Cube.cpp(288): warning C4800: 'ILboolean' : forcing value to bool 'true' or 'false' (performance warning)
+     1>Cube.cpp(293): warning C4800: 'ILboolean' : forcing value to bool 'true' or 'false' (performance warning)
+     1>Cube.cpp(283): warning C4101: 'texId' : unreferenced local variable
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\Workspace\OpenGL\ShadowMapOGL\ShadomMap\Release\OGLFourPointo.exe" /INCREMENTAL:NO /NOLOGO glew32.lib DevIL.lib ILU.lib ILUT.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\Workspace\OpenGL\ShadowMapOGL\ShadomMap\Release\OGLFourPointo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\Workspace\OpenGL\ShadowMapOGL\ShadomMap\Release\OGLFourPointo.lib" /MACHINE:X86 /SAFESEH Release\Body.obj
          Release\Cube.obj
@@ -34,4 +43,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.23
+Time Elapsed 00:00:01.24
