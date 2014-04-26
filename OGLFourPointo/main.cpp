@@ -274,7 +274,7 @@ void ResizeFunction(int Width, int Height)
 			60,
 			(float)CurrentWidth / CurrentHeight,
 			1.0f,
-			400.0f
+			200.0f
 		);
 	state.SetProjectionMatrix(ProjectionMatrix);
 }

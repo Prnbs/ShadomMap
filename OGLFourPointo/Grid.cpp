@@ -289,7 +289,8 @@ void Grid::Draw(GLboolean disableColorWrite)
 	glUniform3fv(ViewVectorUniformLocation, 1, ViewVect.v);
 	glUniform1i(gaussianTextureUnif, 0);
 	glUniform1i(ShadowMapUniformSampler,1);
-	glUniformMatrix4fv(ShadowBiasMatrixUniformLocation, 1, GL_FALSE, state.GetShadowBiasMatrix(ModelMatrix).m);
+	//glUniformMatrix4fv(ShadowBiasMatrixUniformLocation, 1, GL_FALSE, state.GetShadowBiasMatrix(ModelMatrix).m);
+	glUniformMatrix4fv(ShadowBiasMatrixUniformLocation, 1, GL_FALSE, state.GetShadowViewMatrix().m);
 	
 	glClearBufferfv(GL_DEPTH, 0, ones);
 
@@ -302,7 +303,7 @@ void Grid::Draw(GLboolean disableColorWrite)
 	ExitOnGLError("ERROR: Could not bind the VAO for drawing purposes");
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, image); /* Binding of texture name */
+	glBindTexture(GL_TEXTURE_2D, image  ); /* Binding of texture name */
 	glBindSampler(0, g_gaussSampler);
 	ExitOnGLError("ERROR: Could not bind grid samplers");
 

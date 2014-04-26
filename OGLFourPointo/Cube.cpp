@@ -181,11 +181,13 @@ void Cube::Create()
 	ExitOnGLError("ERROR: Could not gen glGenTextures for shadow shader "); 
 	glBindTexture(GL_TEXTURE_2D, state.shadow_tex);
 	ExitOnGLError("ERROR: Could not bind glGenTextures for shadow shader "); 
-	glTexStorage2D(GL_TEXTURE_2D, 1, GL_DEPTH_COMPONENT32F, DEPTH_TEXTURE_SIZE, DEPTH_TEXTURE_SIZE);
+	glTexStorage2D(GL_TEXTURE_2D, 11, GL_DEPTH_COMPONENT32F, DEPTH_TEXTURE_SIZE, DEPTH_TEXTURE_SIZE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_NOTEQUAL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_GEQUAL);
+	glSamplerParameteri(bumpSampler, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glSamplerParameteri(bumpSampler, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, state.shadow_tex, 0);
 
@@ -391,9 +393,16 @@ void Cube::Draw(GLboolean disableColorWrite)
 	glUseProgram((GLuint)ShaderCubeIds.at(0));
 		ExitOnGLError("ERROR: Could not use the cube shader program");
 
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-		glFrontFace(GL_CW);
+		if(disableColorWrite)
+		{
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+			glFrontFace(GL_CW);
+		}
+		else
+		{
+			glDisable(GL_CULL_FACE);
+		}
 
 		ViewVect.v[0] = state.GetViewMatrix().m[2];
 		ViewVect.v[1] = state.GetViewMatrix().m[6];

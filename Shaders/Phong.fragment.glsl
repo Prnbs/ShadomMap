@@ -34,13 +34,16 @@ void main(void)
 	vec4 guassianTerm = texture(gaussianTexture, vec2(TexPosn));    
 	
 	vec3 col = mix(ambcolor.rgb, guassianTerm.rgb, guassianTerm.a);
+	out_Color =  vec4(col, ambcolor.a) + specHighlight + ambLight;
 	float visibility = 1.0;
 	shadowColour = textureProj(shadow_tex, vs_in.shadow_coord) * vec4(1.0);
-	//if(shadowColour.z < shadow_coord.x)
-	//	visibility = 0.5;
-	out_Color =  vec4(col, ambcolor.a) + specHighlight + ambLight;
+	if(shadowColour.x == 0 || shadowColour.x == 1)
+		shadowColour = out_Color;
+	else
+		shadowColour = out_Color * 0.5;
+	
 	
 	//out_Color = vs_in.shadow_coord;
-    	out_Color = shadowColour;
+    out_Color = shadowColour;
 	
 }

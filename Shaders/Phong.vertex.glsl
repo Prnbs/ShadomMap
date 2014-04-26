@@ -28,7 +28,7 @@ void main(void)
 	TexPosn = vec3(ModelMatrix  * vec4(in_Tex_Posn, 0.0));
 	DirectionLightEye = vec3(ViewMatrix * vec4(DirectionLight, 0.0));
 	gl_Position = (ProjectionMatrix * ViewMatrix * ModelMatrix) * in_Position;
-	vs_out.shadow_coord = ShadowBias * in_Position;
+	vs_out.shadow_coord = (ProjectionMatrix * ShadowBias * ModelMatrix) * in_Position;
     //vs_out.shadow_coord = in_Position;
 } 
 
