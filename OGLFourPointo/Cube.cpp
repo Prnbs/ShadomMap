@@ -200,7 +200,7 @@ void Cube::Create()
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, state.debug_shadow_tex, 0);
 
 	if (GL_FRAMEBUFFER_COMPLETE == glCheckFramebufferStatus(GL_FRAMEBUFFER))
-    {
+    { 
         printf("FBO %d set up successfully. Yay!\n", state.shadow_Fbuffer);
     }
     else
@@ -388,6 +388,16 @@ void Cube::DrawFromLightPOV()
 
 void Cube::Draw(GLboolean disableColorWrite)
 {
+
+	float CubeAngle;
+	clock_t Now = clock();
+	if (state.GetLastTime() == 0)
+		state.SetLastTime(Now);
+	CubeRotation += 45.0f * (float)(Now - state.GetLastTime()) / CLOCKS_PER_SEC;
+	//CubeRotation = 0;
+	CubeAngle = DegreesToRadians(CubeRotation);
+	state.SetLastTime(Now); 
+	RotateAboutY(&ModelMatrix, CubeAngle/10000.0);
 	static const GLfloat ones[] = { 1.0f };
     static const GLfloat zero[] = { 0.0f };
 	glUseProgram((GLuint)ShaderCubeIds.at(0));

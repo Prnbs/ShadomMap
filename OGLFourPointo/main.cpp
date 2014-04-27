@@ -4,7 +4,7 @@
 #include "CurrentState.h"
 #include "World.h"
 #define WINDOW_TITLE_PREFIX "Chapter 4"
-#define DEPTH_TEXTURE_SIZE  4096
+#define DEPTH_TEXTURE_SIZE  2048 
 
 using namespace std;
 //1520,1000
@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
 {
 	
 	DirectLight.v[0] = 0.0f;
-	DirectLight.v[1] = 2.0f;
+	DirectLight.v[1] = 20000.0f;
 	DirectLight.v[2] = 0.0f;
 
 	state.SetLightDirection(DirectLight);

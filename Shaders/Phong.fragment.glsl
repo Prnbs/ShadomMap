@@ -29,7 +29,7 @@ void main(void)
 	vec4 ambcolor = max( dot(normalize(DirectionLightEye), n), 0.0 ) * DirectionLightColour ;
 	vec4 specHighlight = pow( max( dot(r,v), 0.0 ), shininess ) * specColor;
 	vec4 ambLight = vec4(0.1, 0.1, 0.1, 0);
-	
+	 
 	vec2 texCoord = normalize(FragPosition.xy);
 	vec4 guassianTerm = texture(gaussianTexture, vec2(TexPosn));    
 	
@@ -40,7 +40,7 @@ void main(void)
 	if(shadowColour.x == 0 || shadowColour.x == 1)
 		shadowColour = out_Color;
 	else
-		shadowColour = out_Color * 0.5;
+		shadowColour = out_Color * 0.2;
 	
 	
 	//out_Color = vs_in.shadow_coord;
