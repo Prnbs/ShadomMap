@@ -10,15 +10,11 @@ out vec3 DirectionLightEye;
 out vec3 TexPosn;
 out vec4 inColour;
 
-
 uniform mat4 ModelMatrix;
 uniform mat4 ViewMatrix;
 uniform mat4 ProjectionMatrix;
 uniform mat4 MVMatrix;
-
 uniform vec3 DirectionLight;
-
-
 
 void main(void)
 {
@@ -28,6 +24,5 @@ void main(void)
 	DirectionLightEye = vec3(ViewMatrix * vec4(DirectionLight, 0.0));
 	inColour = in_Color;
 	gl_Position = (ProjectionMatrix * ViewMatrix * ModelMatrix) * in_Position;
-	
 } 
 

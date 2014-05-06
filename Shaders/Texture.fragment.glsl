@@ -12,7 +12,6 @@ uniform vec3 ViewVector;
 uniform sampler2D gaussianTexture;
 uniform sampler2D bumpTexture;
 
-  
 void main(void)
 {
 	vec4 specColor = vec4(1.0, 1.0,1.0,1.0);
@@ -35,5 +34,4 @@ void main(void)
 	
 	vec3 col = mix(ambcolor.rgb, guassianTerm.rgb, guassianTerm.a);
 	out_Color =  vec4(col, ambcolor.a) + specHighlight + ambLight;
-	
 }
